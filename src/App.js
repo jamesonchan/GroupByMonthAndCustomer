@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import TableWIthTransactions from "./components/TableWIthTransactions";
+import { useLoading } from "./hooks";
 import { fetchTransactionMockRecord } from "./services/transaction.api";
 
 const filterByMonth = (transactions, trans) => {
@@ -20,6 +21,7 @@ const filterByCustomerId = (filterByMonthArr, trans) => {
 
 function App() {
   const [transactions, setTransactions] = useState([]);
+  const { isLoading, startLoading, stopLoading } = useLoading();
 
   // map strcuture : {july : {customerId :[{}]...}, June : {customerId : [{}]... }}
   const parseTransactions = useMemo(() => {
@@ -56,14 +58,20 @@ function App() {
   }, [transactions]);
 
   useEffect(() => {
+    startLoading();
     fetchTransactionMockRecord().then((data) => {
       setTransactions(data);
+      stopLoading();
     });
   }, []);
 
   return (
     <div className="App">
-      <TableWIthTransactions transactions={parseTransactions} />
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <TableWIthTransactions transactions={parseTransactions} />
+      )}
     </div>
   );
 }
