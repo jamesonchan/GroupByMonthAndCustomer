@@ -1,7 +1,7 @@
 import React from "react";
 import TableLayout from "./TableLayout";
 
-const getCustomerId = (itemValue) => {
+const getCustomerArrById = (itemValue) => {
   const res = [];
   itemValue.forEach((value, key) => {
     res.push({ key, value });
@@ -22,7 +22,7 @@ const mapCustomerIdArr = (customerIdArr) => {
 
 const mapTransactions = (transactions) => {
   return transactions.map((item) => {
-    const cutomerArr = getCustomerId(item.value);
+    const cutomerArr = getCustomerArrById(item.value);
 
     return (
       <div key={item.key}>
