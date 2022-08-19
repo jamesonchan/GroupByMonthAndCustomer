@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   parseCreateDateToMonth,
   parseTransactionKey,
 } from "../services/transaction.api";
 
-const TableLayout = ({ transactions }) => {
+const TableLayout = memo(({ transactions }) => {
   return (
     <table>
       <thead>
@@ -33,6 +33,6 @@ const TableLayout = ({ transactions }) => {
       </tbody>
     </table>
   );
-};
+});
 
 export default TableLayout;
