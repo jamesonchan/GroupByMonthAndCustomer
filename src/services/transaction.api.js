@@ -7,8 +7,6 @@ const customers = new Array(numberOfcustomers).fill(0).map((_) => {
   return faker.datatype.uuid();
 });
 
-console.log("customers", customers);
-
 export const transactionMockData = new Array(numberOfRecords)
   .fill(0)
   .map((_) => {
@@ -32,5 +30,17 @@ export const fetchTransactionMockRecord = () =>
   });
 
 export const parseTransactionKey = () => {
-  return Object.keys(transactionMockData[0])
+  return Object.keys(transactionMockData[0]);
+};
+
+export const parseCreateDateToMonth = (createDate) => {
+  return new Date(createDate).toLocaleString("en-US", { month: "long" });
+};
+
+export const sortTransactions = (transactions) => {
+  return transactions.sort((a, b) => {
+    return (
+      new Date(a.createDate).getMonth() - new Date(b.createDate).getMonth()
+    );
+  });
 };

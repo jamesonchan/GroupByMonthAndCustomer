@@ -2,13 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import TableWIthTransactions from "./components/TableWIthTransactions";
 import { useLoading } from "./hooks";
-import { fetchTransactionMockRecord } from "./services/transaction.api";
+import {
+  fetchTransactionMockRecord,
+  parseCreateDateToMonth,
+  sortTransactions,
+} from "./services/transaction.api";
 
 const filterByMonth = (transactions, trans) => {
   return transactions.filter((item) => {
     return (
-      new Date(item.createDate).getMonth() ===
-      new Date(trans.createDate).getMonth()
+      parseCreateDateToMonth(item.createDate) ===
+      parseCreateDateToMonth(trans.createDate)
     );
   });
 };
@@ -41,12 +45,7 @@ function App() {
         // set inner map categorized by customerId
         tempMap.set(trans.customerId, filterByCustomerIdArr);
         // set outer map categorized by month
-        map.set(
-          new Date(trans.createDate).toLocaleString("en-US", {
-            month: "long",
-          }),
-          tempMap
-        );
+        map.set(parseCreateDateToMonth(trans.createDate), tempMap);
       });
     });
 
@@ -60,7 +59,7 @@ function App() {
   useEffect(() => {
     startLoading();
     fetchTransactionMockRecord().then((data) => {
-      setTransactions(data);
+      setTransactions(sortTransactions(data));
       stopLoading();
     });
   }, []);

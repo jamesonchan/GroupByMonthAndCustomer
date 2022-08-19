@@ -1,5 +1,8 @@
 import React from "react";
-import { parseTransactionKey } from "../services/transaction.api";
+import {
+  parseCreateDateToMonth,
+  parseTransactionKey,
+} from "../services/transaction.api";
 
 const TableLayout = ({ transactions }) => {
   return (
@@ -21,11 +24,7 @@ const TableLayout = ({ transactions }) => {
               <td>{customerId}</td>
               <td>{productId}</td>
               <td>{price}</td>
-              <td>
-                {new Date(createDate).toLocaleString("en-US", {
-                  month: "long",
-                })}
-              </td>
+              <td>{parseCreateDateToMonth(createDate)}</td>
             </tr>
           );
         })}
