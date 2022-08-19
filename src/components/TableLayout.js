@@ -15,16 +15,18 @@ const TableLayout = ({ transactions }) => {
         </tr>
       </thead>
       <tbody>
-        {transactions.map((item) => {
-          const { transactionId, customerId, productId, price, createDate } =
-            item;
+        {transactions.map((trans) => {
           return (
-            <tr key={transactionId}>
-              <td>{transactionId}</td>
-              <td>{customerId}</td>
-              <td>{productId}</td>
-              <td>{price}</td>
-              <td>{parseCreateDateToMonth(createDate)}</td>
+            <tr key={Math.random()}>
+              {parseTransactionKey().map((item) => {
+                const displayItem = trans[item];
+                if (displayItem.toString().startsWith("165")) {
+                  return (
+                    <td key={item}>{parseCreateDateToMonth(displayItem)}</td>
+                  );
+                }
+                return <td key={item}>{displayItem}</td>;
+              })}
             </tr>
           );
         })}
